@@ -5,7 +5,7 @@
 
 ##Gradle 引用
 
-compile 'com.woodys.tools.keyboard:KeyboardWatcher:1.0.0'
+compile 'com.woodys.tools.keyboard:KeyboardWatcher:1.0.1'
 
 ###示例代码
 
@@ -17,15 +17,14 @@ compile 'com.woodys.tools.keyboard:KeyboardWatcher:1.0.0'
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
 
-        keyboardWatcher = KeyboardWatcher.get().init(this, getWindow().getDecorView(), new OnKeyboardChangeListener() {
+        keyboardWatcher = KeyboardWatcher.get().init(this, getWindow().getDecorView(), new OnKeyboardStateChangeListener() {
             @Override
-            public void onKeyboardShow() {
-                Toast.makeText(getApplication(), "键盘显示了！", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onKeyboardHidden() {
-                Toast.makeText(getApplication(), "键盘隐藏了！", Toast.LENGTH_SHORT).show();
+            public void onKeyboardStateChange(boolean isShow, int heightDifference) {
+                if(isShow){
+                    Toast.makeText(getApplication(), "键盘显示了！高度差："+heightDifference, Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getApplication(), "键盘隐藏了！高度差："+heightDifference, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

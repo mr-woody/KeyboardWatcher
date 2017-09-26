@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.woodys.tools.keyboard.KeyboardWatcher;
-import com.woodys.tools.keyboard.callback.OnKeyboardChangeListener;
+import com.woodys.tools.keyboard.callback.OnKeyboardStateChangeListener;
 
 /**
  * A login screen that offers login via email/password.
@@ -20,15 +20,14 @@ public class Login2Activity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
 
-        keyboardWatcher = KeyboardWatcher.get().init(this, getWindow().getDecorView(), new OnKeyboardChangeListener() {
+        keyboardWatcher = KeyboardWatcher.get().init(this, getWindow().getDecorView(), new OnKeyboardStateChangeListener() {
             @Override
-            public void onKeyboardShow() {
-                Toast.makeText(getApplication(), "键盘显示了！", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onKeyboardHidden() {
-                Toast.makeText(getApplication(), "键盘隐藏了！", Toast.LENGTH_SHORT).show();
+            public void onKeyboardStateChange(boolean isShow, int heightDifference) {
+                if(isShow){
+                    Toast.makeText(getApplication(), "键盘显示了！高度差："+heightDifference, Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getApplication(), "键盘隐藏了！高度差："+heightDifference, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

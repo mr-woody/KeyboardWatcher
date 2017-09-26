@@ -3,10 +3,11 @@ package com.woodys.tools.keyboard;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Build;
+import android.util.Pair;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
-import com.woodys.tools.keyboard.callback.OnKeyboardChangeListener;
+import com.woodys.tools.keyboard.callback.OnKeyboardStateChangeListener;
 import com.woodys.tools.keyboard.utils.DisplayMetricsUtils;
 
 /**
@@ -14,8 +15,6 @@ import com.woodys.tools.keyboard.utils.DisplayMetricsUtils;
  */
 
 public class KeyboardWatcher{
-    //默认软键盘最小高度
-    private final static int SOFTINPUT_HEIGHT_DEFAULT = 90;
     private GlobalLayoutListener globalLayoutListener;
     private Context context;
     private View decorView;
@@ -26,7 +25,14 @@ public class KeyboardWatcher{
         return new KeyboardWatcher();
     }
 
-    public KeyboardWatcher init(Context context,View decorView,OnKeyboardChangeListener listener){
+    /**
+     * 监听键盘的状态变化
+     * @param context
+     * @param decorView
+     * @param listener
+     * @return
+     */
+    public KeyboardWatcher init(Context context,View decorView,OnKeyboardStateChangeListener listener){
         this.context=context;
         this.decorView=decorView;
         this.globalLayoutListener = new GlobalLayoutListener(listener);
@@ -72,36 +78,36 @@ public class KeyboardWatcher{
      * @return
      */
 
-    public boolean isKeyboardShowing(Context context,View decorView) {
+    public Pair<Boolean,Integer> isKeyboardShowing(Context context,View decorView) {
         Rect outRect = new Rect();
         //指当前Window实际的可视区域大小，通过decorView获取到程序显示的区域，包括标题栏，但不包括状态栏。
         decorView.getWindowVisibleDisplayFrame(outRect);
         int displayScreenHeight = DisplayMetricsUtils.getDisplayScreenHeight(context);
 
-        //如果屏幕高度和Window可见区域高度差值大于整个屏幕高度的1/3，则表示软键盘显示中，否则软键盘为隐藏状态。
-        int heightDifference = displayScreenHeight - (outRect.bottom - outRect.top);
-        return heightDifference > Math.max(displayScreenHeight/3,SOFTINPUT_HEIGHT_DEFAULT * DisplayMetricsUtils.getDisplayScreenDensity(context));
+        //如果屏幕高度和Window可见区域高度差值大于0，则表示软键盘显示中，否则软键盘为隐藏状态。
+        int heightDifference = displayScreenHeight - outRect.bottom;
+        return new Pair(heightDifference >0,heightDifference);
     }
 
 
     public class GlobalLayoutListener implements ViewTreeObserver.OnGlobalLayoutListener {
         private boolean isKeyboardShow = false;
-        private OnKeyboardChangeListener onKeyboardChangeListener;
 
-        public GlobalLayoutListener(OnKeyboardChangeListener onKeyboardChangeListener){
+        private OnKeyboardStateChangeListener onKeyboardStateChangeListener;
+
+        public GlobalLayoutListener(OnKeyboardStateChangeListener onKeyboardStateChangeListener){
             this.isKeyboardShow = false;
-            this.onKeyboardChangeListener = onKeyboardChangeListener;
+            this.onKeyboardStateChangeListener = onKeyboardStateChangeListener;
         }
 
         @Override
         public void onGlobalLayout() {
-            if(null != onKeyboardChangeListener && null != decorView){
-                if (isKeyboardShowing(context, decorView)) {
-                    isKeyboardShow = true;
-                    onKeyboardChangeListener.onKeyboardShow();
+            if(null != onKeyboardStateChangeListener && null != decorView){
+                Pair<Boolean,Integer> pair = isKeyboardShowing(context, decorView);
+                if (pair.first) {
+                    onKeyboardStateChangeListener.onKeyboardStateChange(isKeyboardShow = true,pair.second);
                 }else if (isKeyboardShow){
-                    isKeyboardShow = false;
-                    onKeyboardChangeListener.onKeyboardHidden();
+                    onKeyboardStateChangeListener.onKeyboardStateChange(isKeyboardShow = false,pair.second);
                 }
             }
         }
