@@ -1,0 +1,91 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="文本输入框1" />
+
+        <Button
+            android:id="@+id/btn1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="猴子搬来的救兵按钮"
+            android:textSize="15sp" />
+
+
+        <EditText
+            android:id="@+id/et2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="文本输入框2" />
+
+        <EditText
+            android:id="@+id/et3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="文本输入框3" />
+
+        <EditText
+            android:id="@+id/et4"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="文本输入框4" />
+
+        <EditText
+            android:id="@+id/et5"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="文本输入框5" />
+
+        <EditText
+            android:id="@+id/et6"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="文本输入框6" />
+
+        <EditText
+            android:id="@+id/et7"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="文本输入框7" />
+
+        <EditText
+            android:id="@+id/et8"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="文本输入框8" />
+
+        <EditText
+            android:id="@+id/et9"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="文本输入框9" />
+
+        <EditText
+            android:id="@+id/et10"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="文本输入框10" />
+
+        <EditText
+            android:id="@+id/et11"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="文本输入框11" />
+
+        <EditText
+            android:id="@+id/et12"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="文本输入框12" />
+    </LinearLayout>
+</ScrollView>
